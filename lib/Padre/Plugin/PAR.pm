@@ -2,8 +2,7 @@ package Padre::Plugin::PAR;
 use strict;
 use warnings;
 
-use Wx         qw(:everything);
-use Wx::Event  qw(:everything);
+use Padre::Wx  ();
 use File::Temp ();
 
 our $VERSION = '0.03';
@@ -57,15 +56,15 @@ return;
     }
 
     if ($filename !~ /\.pl$/i) {
-        Wx::MessageBox( "Currently we only support exe generation from .pl files", "Cannot create", wxOK|wxCENTRE, $self );
+        Wx::MessageBox( "Currently we only support exe generation from .pl files", "Cannot create", Wx::wxOK|Wx::wxCENTRE, $self );
         return;
     }
     (my $out = $filename) =~ s/pl$/exe/i;
     my $ret = system("pp", $filename, "-o", $out);
     if ($ret) {
-       Wx::MessageBox( "Error generating '$out': $!", "Failed", wxOK|wxCENTRE, $self );
+       Wx::MessageBox( "Error generating '$out': $!", "Failed", Wx::wxOK|Wx::wxCENTRE, $self );
     } else {
-       Wx::MessageBox( "$out generated", "Done", wxOK|wxCENTRE, $self );
+       Wx::MessageBox( "$out generated", "Done", Wx::wxOK|Wx::wxCENTRE, $self );
     }
 
     if ($tmpfh) {
