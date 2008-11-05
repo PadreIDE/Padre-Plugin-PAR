@@ -39,7 +39,8 @@ sub menu {
 
 sub on_stand_alone {
     my ($self, $event) = @_;
-
+print "$event\n";
+return;
     #print "Stand alone called\n";
     # get name of the current file, if it is a pl file create the corresponding .exe
 
