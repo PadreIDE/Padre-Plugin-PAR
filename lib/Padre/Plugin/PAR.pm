@@ -5,7 +5,7 @@ use warnings;
 use Padre::Wx  ();
 use File::Temp ();
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 =head1 NAME
 
@@ -14,7 +14,7 @@ Padre::Plugin::PAR - PAR generation from Padre
 =head1 SYNOPIS
 
 This is an experimental version of the plugin using the experimental
-plugin interface of Padre 0.12_01.
+plugin interface of Padre 0.16.
 
 After installation there should be a menu item I<Padre - PAR - Stand Alone>
 
