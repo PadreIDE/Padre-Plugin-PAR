@@ -7,7 +7,7 @@ use Padre::PluginBuilder ();
 my $builder = Padre::PluginBuilder->new(
     module_name           => 'Padre::Plugin::PAR',
     license               => 'perl',
-    dist_author           => 'Gabor Szabo',
+    dist_author           => ['Gabor Szabo', 'Steffen Mueller'],
     create_makefile_pl    => 'traditional',
     create_readme         => 0,
     recursive_test_files  => 0,

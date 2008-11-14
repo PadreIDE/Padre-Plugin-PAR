@@ -2,9 +2,6 @@ package Padre::Plugin::PAR;
 use strict;
 use warnings;
 
-use Padre::Wx  ();
-use File::Temp ();
-
 our $VERSION = '0.04';
 
 =head1 NAME
@@ -26,6 +23,10 @@ file for you.
 
 =cut
 
+sub require_modules {
+  require Padre::Wx;
+  require File::Temp;
+}
 
 my @menu = (
     ["Stand alone", \&on_stand_alone],
@@ -38,8 +39,9 @@ sub menu {
 
 sub on_stand_alone {
     my ($self, $event) = @_;
-print "$event\n";
-return;
+
+    require_modules();
+
     #print "Stand alone called\n";
     # get name of the current file, if it is a pl file create the corresponding .exe
 
