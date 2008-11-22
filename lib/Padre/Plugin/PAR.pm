@@ -1,8 +1,15 @@
 package Padre::Plugin::PAR;
 use strict;
 use warnings;
+use base 'Padre::Plugin';
 
 our $VERSION = '0.04';
+
+use Padre::Wx;
+
+sub require_modules {
+    require File::Temp;
+}
 
 =head1 NAME
 
@@ -23,29 +30,42 @@ file for you.
 
 =cut
 
-sub require_modules {
-  require Padre::Wx;
-  require File::Temp;
+
+sub menu_plugins_simple {
+    my $self = shift;
+    return 'PAR' => [
+        'Create Standalone Exe' => \&on_stand_alone,
+        'About' => sub { $self->about },
+    ];
 }
 
-my @menu = (
-    ["Stand alone", \&on_stand_alone],
-);
+sub about {
+    my $self = shift;
 
-sub menu {
-    my ($self) = @_;
-    return @menu;
+    # Generate the About dialog
+    my $about = Wx::AboutDialogInfo->new;
+    $about->SetName("PAR Plugin");
+    $about->SetDescription( <<"END_MESSAGE" );
+This is an experimental plugin for Padre to allow
+you to generate standalone executables from your Perl
+programs using PAR, the Perl ARchive Toolkit.
+END_MESSAGE
+
+    # Show the About dialog
+    Wx::AboutBox( $about );
+
+    return;
 }
 
 sub on_stand_alone {
-    my ($self, $event) = @_;
+    my ($mw, $event) = @_;
 
     require_modules();
 
     #print "Stand alone called\n";
     # get name of the current file, if it is a pl file create the corresponding .exe
 
-    my $doc = $self->selected_document;
+    my $doc = $mw->selected_document;
 
     my $filename = $doc->filename;
     my $tmpfh;
@@ -58,15 +78,15 @@ sub on_stand_alone {
     }
 
     if ($filename !~ /\.pl$/i) {
-        Wx::MessageBox( "Currently we only support exe generation from .pl files", "Cannot create", Wx::wxOK|Wx::wxCENTRE, $self );
+        Wx::MessageBox( "Currently we only support exe generation from .pl files", "Cannot create", Wx::wxOK|Wx::wxCENTRE, $mw );
         return;
     }
     (my $out = $filename) =~ s/pl$/exe/i;
     my $ret = system("pp", $filename, "-o", $out);
     if ($ret) {
-       Wx::MessageBox( "Error generating '$out': $!", "Failed", Wx::wxOK|Wx::wxCENTRE, $self );
+       Wx::MessageBox( "Error generating '$out': $!", "Failed", Wx::wxOK|Wx::wxCENTRE, $mw );
     } else {
-       Wx::MessageBox( "$out generated", "Done", Wx::wxOK|Wx::wxCENTRE, $self );
+       Wx::MessageBox( "$out generated", "Done", Wx::wxOK|Wx::wxCENTRE, $mw );
     }
 
     if ($tmpfh) {
