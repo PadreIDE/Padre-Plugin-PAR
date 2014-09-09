@@ -30,7 +30,7 @@ my $builder = Padre::PluginBuilder->new(
     meta_merge     => {
         resources => {
             homepage   => 'http://padre.perlide.org/',
-            repository => 'http://svn.perlide.org/padre/trunk/Padre-Plugin-PAR/',
+            repository => 'https://github.com/PadreIDE/Padre-Plugin-PAR/',
         }
     },
     share_dir => 'share',
